@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>D&D.Sci (belated) July 2021 Evaluator</title>
+</head>
+<body>
+  <div id="choiceline"> You advise Morgan to channel <span id="flow1"><button onclick="set_flow1('Solar')">Solar</button>/<button onclick="set_flow1('Lunar')">Lunar</button>/<button onclick="set_flow1('Ocean')">Ocean</button>/<button onclick="set_flow1('Breeze')">Breeze</button>/<button onclick="set_flow1('Flame')">Flame</button>/<button onclick="set_flow1('Ash')">Ash</button>/<button onclick="set_flow1('Earth')">Earth</button>/<button onclick="set_flow1('Void')">Void</button>/<button onclick="set_flow1('Doom')">Doom</button>/<button onclick="set_flow1('Spite')">Spite</button></span> and <span id="flow2"><button onclick="set_flow2('Solar')">Solar</button>/<button onclick="set_flow2('Lunar')">Lunar</button>/<button onclick="set_flow2('Ocean')">Ocean</button>/<button onclick="set_flow2('Breeze')">Breeze</button>/<button onclick="set_flow2('Flame')">Flame</button>/<button onclick="set_flow2('Ash')">Ash</button>/<button onclick="set_flow2('Earth')">Earth</button>/<button onclick="set_flow2('Void')">Void</button>/<button onclick="set_flow2('Doom')">Doom</button>/<button onclick="set_flow2('Spite')">Spite</button></span> mana.</div>
+  <br>
+  <br>
+  <div id="buttonLine"><button onclick="confirm()">Confirm</button></div>
+  <br>
+  <div id="reactionLine"></div>
+  <br>
+  <div id="resultLine"></div>
+  <br>
+  <div id="probLine"></div>
+  <br>
+<b style="font-size:28px">
+</div>
+  
+</b>
+<script id="jsbin-javascript">
+
+flow1=""
+flow2=""
+
+function set_flow1(flo){
+ if (flo!=flow2){
+  flow1=flo
+  document.getElementById("flow1").innerHTML = flo
+ }
+}
+
+function set_flow2(flo){
+ if (flo!=flow1){
+  flow2=flo
+  document.getElementById("flow2").innerHTML = flo
+ }
+}
+
+
+function roll_dX(X){
+ return Math.ceil(Math.random()*X)
+}
+
+manaList = {}
+
+Solar=0
+Lunar=0
+Ocean=0
+Breeze=0
+Flame=0
+Ash=0
+Earth=0
+Void=0
+Doom=0
+Spite=0
+
+function fill_out_day_384(){
+ Solar = 45 + roll_dX(2) - roll_dX(2)
+ Lunar = 13
+ 
+ World = 77 + roll_dX(4) - roll_dX(4)
+ division = 15+roll_dX(80)
+ Earth = Math.floor(division*World/100)
+ Ocean = World-Earth
+
+ Flame = 30 //Day 374
+ 
+ Ash = Math.floor(Flame/4)
+ Flame = Flame-Ash
+ Ash = Math.floor(Flame/4)
+ Flame = Flame-Ash
+ Ash = Math.floor(Flame/4)
+ Flame = Flame-Ash
+ Ash = Math.floor(Flame/4)
+ Flame = Flame-Ash
+ Ash = Math.floor(Flame/4)
+ Flame = Flame-Ash
+ Ash = Math.floor(Flame/4)
+ Flame = Flame-Ash
+ Ash = Math.floor(Flame/4)
+ Flame = Flame-Ash
+ Ash = Math.floor(Flame/4)
+ Flame = Flame-Ash
+ Ash = Math.floor(Flame/4)
+ Flame = Flame-Ash
+ Ash = Math.floor(Flame/4)
+ Flame = Flame-Ash
+ 
+ Void = 24 + roll_dX(8) - roll_dX(8)
+ 
+ if (Math.random()<0.02){
+  Doom = 99
+ }
+ else{
+  Doom = 27+roll_dX(6)
+ }
+ 
+ Spite=0
+ 
+ manaList = {"Solar":Solar, "Lunar":Lunar, "Ocean":Ocean, "Breeze":Breeze, "Flame":Flame, "Ash":Ash, "Earth":Earth, "Void":Void, "Doom":Doom, "Spite":Spite}
+}
+
+function isabaddie(mana){
+ if (mana=="Void" || mana=="Doom" || mana=="Spite"){
+  return true
+ }
+ return false
+}
+
+function ending(flow1, flow2){
+ if ((isabaddie(flow1) && manaList[flow1]>manaList[flow2]) || (isabaddie(flow2) && manaList[flow2]>manaList[flow1])){
+  return "Demon"
+ }
+ if ((manaList[flow1]+manaList[flow2])>=70){
+  return "Success"
+ }
+ return "Failure"
+}
+
+function total(flow1, flow2){
+ return manaList[flow1]+manaList[flow2]
+}
+
+function feel_bad(){
+ document.getElementById("opinion").innerHTML = "you should probably find another line of work"
+}
+function feel_ok(){
+ document.getElementById("opinion").innerHTML = "you'll just have to do better next time"
+}
+function feel_evil(){
+ document.getElementById("opinion").innerHTML = "you served your dark masters well"
+}
+function feel_sunny(){
+ document.getElementById("opinion").innerHTML = "that sounds cool and you hope it works out for him"
+}
+
+probDict = {'Flame Solar': {'Failure': '22.55%', 'Demon': '0.0%', 'Success': '77.45%'}, 'Void Flame': {'Failure': '76.59%', 'Demon': '20.34%', 'Success': '3.07%'}, 'Lunar Spite': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Void Solar': {'Failure': '55.86%', 'Demon': '0.0%', 'Success': '44.14%'}, 'Spite Void': {'Failure': '0.0%', 'Demon': '100.0%', 'Success': '0.0%'}, 'Void Ocean': {'Failure': '35.72%', 'Demon': '31.76%', 'Success': '32.51%'}, 'Void Spite': {'Failure': '0.0%', 'Demon': '100.0%', 'Success': '0.0%'}, 'Earth Void': {'Failure': '35.73%', 'Demon': '19.55%', 'Success': '44.72%'}, 'Earth Ocean': {'Failure': '0.0%', 'Demon': '0.0%', 'Success': '100.0%'}, 'Breeze Void': {'Failure': '0.0%', 'Demon': '100.0%', 'Success': '0.0%'}, 'Breeze Earth': {'Failure': '73.17%', 'Demon': '0.0%', 'Success': '26.83%'}, 'Spite Earth': {'Failure': '94.22%', 'Demon': '0.0%', 'Success': '5.78%'}, 'Ash Lunar': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Earth Solar': {'Failure': '21.21%', 'Demon': '0.0%', 'Success': '78.79%'}, 'Ash Ocean': {'Failure': '94.7%', 'Demon': '0.0%', 'Success': '5.3%'}, 'Solar Void': {'Failure': '55.86%', 'Demon': '0.0%', 'Success': '44.14%'}, 'Earth Spite': {'Failure': '94.22%', 'Demon': '0.0%', 'Success': '5.78%'}, 'Solar Breeze': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Ash Solar': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Earth Flame': {'Failure': '45.22%', 'Demon': '0.0%', 'Success': '54.78%'}, 'Lunar Solar': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Lunar Ocean': {'Failure': '80.23%', 'Demon': '0.0%', 'Success': '19.77%'}, 'Doom Solar': {'Failure': '0.0%', 'Demon': '1.0%', 'Success': '99.0%'}, 'Solar Doom': {'Failure': '0.0%', 'Demon': '1.0%', 'Success': '99.0%'}, 'Ash Spite': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Flame Void': {'Failure': '76.59%', 'Demon': '20.34%', 'Success': '3.07%'}, 'Earth Doom': {'Failure': '14.45%', 'Demon': '30.79%', 'Success': '54.76%'}, 'Lunar Flame': {'Failure': '99.91%', 'Demon': '0.0%', 'Success': '0.09%'}, 'Doom Earth': {'Failure': '14.45%', 'Demon': '30.79%', 'Success': '54.76%'}, 'Breeze Ash': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Ocean Lunar': {'Failure': '80.23%', 'Demon': '0.0%', 'Success': '19.77%'}, 'Breeze Flame': {'Failure': '99.98%', 'Demon': '0.0%', 'Success': '0.02%'}, 'Breeze Solar': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Ocean Earth': {'Failure': '0.0%', 'Demon': '0.0%', 'Success': '100.0%'}, 'Breeze Doom': {'Failure': '0.0%', 'Demon': '100.0%', 'Success': '0.0%'}, 'Spite Ash': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Solar Lunar': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Void Doom': {'Failure': '2.58%', 'Demon': '97.42%', 'Success': '0.0%'}, 'Flame Lunar': {'Failure': '99.91%', 'Demon': '0.0%', 'Success': '0.09%'}, 'Doom Lunar': {'Failure': '0.0%', 'Demon': '100.0%', 'Success': '0.0%'}, 'Flame Spite': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Flame Earth': {'Failure': '45.22%', 'Demon': '0.0%', 'Success': '54.78%'}, 'Flame Ocean': {'Failure': '57.44%', 'Demon': '0.0%', 'Success': '42.56%'}, 'Void Lunar': {'Failure': '0.0%', 'Demon': '100.0%', 'Success': '0.0%'}, 'Ocean Ash': {'Failure': '94.7%', 'Demon': '0.0%', 'Success': '5.3%'}, 'Doom Void': {'Failure': '2.58%', 'Demon': '97.42%', 'Success': '0.0%'}, 'Ocean Breeze': {'Failure': '85.42%', 'Demon': '0.0%', 'Success': '14.58%'}, 'Earth Ash': {'Failure': '82.64%', 'Demon': '0.0%', 'Success': '17.36%'}, 'Void Breeze': {'Failure': '0.0%', 'Demon': '100.0%', 'Success': '0.0%'}, 'Spite Doom': {'Failure': '0.0%', 'Demon': '100.0%', 'Success': '0.0%'}, 'Spite Breeze': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Earth Breeze': {'Failure': '73.17%', 'Demon': '0.0%', 'Success': '26.83%'}, 'Solar Ocean': {'Failure': '33.44%', 'Demon': '0.0%', 'Success': '66.56%'}, 'Doom Breeze': {'Failure': '0.0%', 'Demon': '100.0%', 'Success': '0.0%'}, 'Spite Ocean': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Earth Lunar': {'Failure': '68.52%', 'Demon': '0.0%', 'Success': '31.48%'}, 'Ocean Flame': {'Failure': '57.44%', 'Demon': '0.0%', 'Success': '42.56%'}, 'Spite Solar': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Lunar Ash': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Solar Ash': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Spite Lunar': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Solar Flame': {'Failure': '22.55%', 'Demon': '0.0%', 'Success': '77.45%'}, 'Ocean Solar': {'Failure': '33.44%', 'Demon': '0.0%', 'Success': '66.56%'}, 'Flame Doom': {'Failure': '36.51%', 'Demon': '51.4%', 'Success': '12.1%'}, 'Lunar Void': {'Failure': '0.0%', 'Demon': '100.0%', 'Success': '0.0%'}, 'Flame Breeze': {'Failure': '99.98%', 'Demon': '0.0%', 'Success': '0.02%'}, 'Doom Flame': {'Failure': '36.51%', 'Demon': '51.4%', 'Success': '12.1%'}, 'Ocean Spite': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Void Earth': {'Failure': '35.73%', 'Demon': '19.55%', 'Success': '44.72%'}, 'Ash Flame': {'Failure': '99.98%', 'Demon': '0.0%', 'Success': '0.02%'}, 'Doom Ocean': {'Failure': '14.5%', 'Demon': '42.91%', 'Success': '42.59%'}, 'Doom Spite': {'Failure': '0.0%', 'Demon': '100.0%', 'Success': '0.0%'}, 'Ocean Doom': {'Failure': '14.5%', 'Demon': '42.91%', 'Success': '42.59%'}, 'Spite Flame': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Ash Void': {'Failure': '0.0%', 'Demon': '100.0%', 'Success': '0.0%'}, 'Solar Earth': {'Failure': '21.21%', 'Demon': '0.0%', 'Success': '78.79%'}, 'Lunar Earth': {'Failure': '68.52%', 'Demon': '0.0%', 'Success': '31.48%'}, 'Lunar Breeze': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Solar Spite': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Breeze Ocean': {'Failure': '85.42%', 'Demon': '0.0%', 'Success': '14.58%'}, 'Flame Ash': {'Failure': '99.98%', 'Demon': '0.0%', 'Success': '0.02%'}, 'Doom Ash': {'Failure': '0.0%', 'Demon': '100.0%', 'Success': '0.0%'}, 'Breeze Lunar': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Lunar Doom': {'Failure': '0.0%', 'Demon': '100.0%', 'Success': '0.0%'}, 'Ash Breeze': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Void Ash': {'Failure': '0.0%', 'Demon': '100.0%', 'Success': '0.0%'}, 'Ocean Void': {'Failure': '35.72%', 'Demon': '31.76%', 'Success': '32.51%'}, 'Breeze Spite': {'Failure': '100.0%', 'Demon': '0.0%', 'Success': '0.0%'}, 'Ash Earth': {'Failure': '82.64%', 'Demon': '0.0%', 'Success': '17.36%'}, 'Ash Doom': {'Failure': '0.0%', 'Demon': '100.0%', 'Success': '0.0%'}} //lifted direct from analysis.py
+
+function confirm(){
+ 
+ if (flow1!="" && flow2!=""){
+  
+  fill_out_day_384()
+  
+  document.getElementById("buttonLine").innerHTML = ""
+  
+  tot = total(flow1, flow2)
+  
+  if (isabaddie(flow1) && isabaddie(flow2)){
+   document.getElementById("reactionLine").innerHTML = "Morgan scowls, tells you that he'll make his own decision, and has you banished from his temple."
+   document.getElementById("resultLine").innerHTML = "You find out much later that his ritual failed, but did so safely."
+  }
+  else{
+   if (isabaddie(flow1) || isabaddie(flow2)){
+    document.getElementById("reactionLine").innerHTML = "Morgan nods apprehensively, and begins preparations for the ritual. You return home."
+   }
+   else{
+    document.getElementById("reactionLine").innerHTML = "Morgan nods, and begins preparations for the ritual. You return home."
+   }
+   
+   end = ending(flow1,flow2)
+   console.log(end)
+   if (end=="Demon"){
+    document.getElementById("resultLine").innerHTML = "Two weeks later, you hear word of a monk who transformed into an immortal demon, and laid waste to three villages before being encased in stone for all eternity. No-one seems to have traced this back to you. Upon hearing this news, you reflect that <span id='opinion'><button onclick='feel_bad()'>you should probably find another line of work</button>/<button onclick='feel_ok()'>you'll just have to do better next time</button>/<button onclick='feel_evil()'>you served your dark masters well</button>/<button onclick='feel_sunny()'>that sounds cool and you hope it works out for him</button></span>."
+   }
+   if (end=="Success"){
+    cropsPercent = ((10+tot)/10).toString()+"%"
+    plaguePercent = ((-28+tot)/10).toString()+"%"
+    festPercent = ((-3+tot)/10).toString()+"%"
+    document.getElementById("resultLine").innerHTML = "The ritual is a success. From that day onwards, crop yields are "+cropsPercent+" greater, plagues are "+plaguePercent+" less virulent, and the Winter Celebration is "+festPercent+" more festive."
+   }
+   if (end=="Failure"){
+    document.getElementById("resultLine").innerHTML = "Three weeks later, during your next paid excursion, you stop by the temple and ask after Morgan. You discover that his ritual failed, but did so safely."
+   }
+   
+   probs=probDict[flow1+" "+flow2]
+   document.getElementById("probLine").innerHTML = "(Your choices gave you a "+probs["Success"]+" chance of success, a "+probs["Failure"]+" chance of safe failure, and a "+probs["Demon"]+" chance of turning Morgan into a demon.)"
+  }
+ }
+}
+
+</script>
+</body>
+</html>
